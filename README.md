@@ -130,10 +130,18 @@ Testando a conexão na base de dados:
 $ docker exec -i docker-ecidade-db-1 psql -U ecidade -d ecidade -l
 ```
 
-Se o comando foi executado com sucesso, a carga da base de dados pode ser realizada através do comando:
+Criando os usuários e permissões necessárias:
 
 ```bash
-$ docker exec -i docker-ecidade-db-1 psql -U ecidade -d ecidade < /caminho/arquivo/sql/da/base.sql
+$ docker exec -i docker-ecidade-db-1 psql -U ecidade -c "CREATE ROLE postgres WITH LOGIN PASSWORD 'postgres';"
+$ docker exec -i docker-ecidade-db-1 psql -U ecidade -c "CREATE ROLE dbseller WITH LOGIN PASSWORD 'dbseller';"
+$ docker exec -i docker-ecidade-db-1 psql -U ecidade -c "CREATE ROLE plugin WITH LOGIN PASSWORD 'plugin';"
+```
+
+Se os comandos foram executados com sucesso, a carga da base de dados pode ser realizada através do comando:
+
+```bash
+$ docker exec -i docker-ecidade-db-1 psql -U ecidade -d ecidade < ./sql/schema.sql
 ```
 
 ## Acessando o ambiente do container
